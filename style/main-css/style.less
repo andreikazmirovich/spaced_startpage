@@ -1,0 +1,84 @@
+@color-sideNav-main: #2C3050;
+@color-sideNav-border: #575B7C;
+@color-btn-hover: #CCCBCB;
+
+body{
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	font-family: 'Didact Gothic', sans-serif;
+	background-image: url("../../img/bg's/1.jpg");
+}
+#side_nav{
+	width: 250px;
+	height: 100%;
+	background-color: @color-sideNav-main;
+	position: fixed;
+	border-right: 7px solid @color-sideNav-border;
+	// left: -292px;
+	left: -241px;
+	transition: all .2s ease;
+	padding: 30px 20px;
+	box-sizing: border-box;
+	.icon{
+		width: 70px;
+		height: 70px;
+		background-color: @color-sideNav-border;
+		-webkit-background-size: contain;
+		background-size: contain;
+		border-radius: 10px;
+		display: inline-block;
+		margin: 14px 14px;
+	}
+	.fa-plus{
+		position: absolute;
+		bottom: 30px;
+		right: 30px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+		&:hover{
+			color: @color-btn-hover;
+		}
+	}
+	#inst{
+		background-image: url(../../img/instagram.svg);
+	}
+	#butt{
+		display: block;
+		width: 25px;
+		height: 40px;
+		background-color: @color-sideNav-main;
+		right: -25px;
+		position: absolute;
+		top: 50%;
+		margin-top: -20px;
+		border-radius: 0 4px 4px 0;
+		font-size: 25px;
+		line-height: 40px;
+		color: white;
+		cursor: pointer;
+		z-index: 5;
+		&:hover{
+			color: @color-btn-hover;
+		}
+	}
+}
+#block_add_new{
+	position: absolute;
+	width: 400px;
+	height: 45px;
+	background-color: rgba(44, 48, 80, .7);
+	color: white;
+	left: 50%;
+	margin-left: -200px;
+	top: 70px;
+	border: none;
+	border-bottom: 5px solid @color-sideNav-border;
+	font-size: 35px;
+	outline: none;
+	padding: 0px 10px 4px 10px;
+	line-height: 40px;
+	box-sizing: border-box;
+	font-family: 'Didact Gothic', sans-serif;
+}
