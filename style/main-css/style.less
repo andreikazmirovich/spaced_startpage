@@ -21,7 +21,7 @@ body{
 	.icon{
 		width: 70px;
 		height: 70px;
-		background-color: @color-sideNav-border;
+		// background-color: @color-sideNav-border;
 		-webkit-background-size: contain;
 		background-size: contain;
 		border-radius: 10px;
@@ -38,9 +38,6 @@ body{
 		&:hover{
 			color: @color-btn-hover;
 		}
-	}
-	#inst{
-		background-image: url(../../img/instagram.svg);
 	}
 	#butt{
 		display: block;
@@ -88,4 +85,49 @@ body{
 	transition: transform 20s linear, opacity 3s linear;
 	z-index: -100;
 	opacity: 1;
+}
+#block_add_new_navicon{
+	position: absolute;
+	width: 400px;
+	left: 50%;
+	// top: 170px;
+	bottom: 30px;
+	margin-left: -200px;
+	background-color: @color-sideNav-main;
+	padding: 25px;
+	box-sizing: border-box;
+	text-align: center;
+	// opacity: 0;
+	transition: bottom .2s ease, opacity .2s ease;
+	input{
+		text-align: center;
+		width: 350px;
+		padding: 0;
+		font-size: 18px;
+		margin: 0 auto;
+		outline: none;
+		border: none;
+		margin: 15px 0;
+		border-bottom: 3px solid @color-sideNav-border;
+		background-color: rgba(255,255,255, 0);
+		color: white;
+		&:first-child{
+			font-size: 30px;
+		}
+	}
+	button{
+		margin-top: 20px;
+		width: 70px;
+		height: 25px;
+		border: none;
+		border-radius: 2px;
+		outline: none;
+		cursor: pointer;
+		&:active{
+			font-size: 13px;
+			-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+			-moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+			box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+		}
+	}
 }
