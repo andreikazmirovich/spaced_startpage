@@ -1,27 +1,39 @@
-function getElement(url) {
-    request(new XMLHttpRequest());
+$(document).ready(function() {
 
-    function request(xhr) {
-        xhr.open('GET', 'https://crossorigin.me/' + url, true);
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == 4) {
-                if(xhr.status == 200) {
-                    html = document.createElement('div');
-                    html.innerHTML = xhr.responseText;
-                    console.log(html.innerHTML);
+    /*----------  open\close sidebar  ----------*/
+        
+        // $("#side_nav #butt").hover(function() {
+        //     $("#side_nav").css('left', '-237px');
+        // }, function() {
+        //     if($("#side_nav").css('left') !== '0'){
+        //         $("#side_nav").css('left', '-243px');
+        //     }
+        // });
+
+    function getElement(url) {
+        request(new XMLHttpRequest());
+
+        function request(xhr) {
+            xhr.open('GET', 'https://crossorigin.me/' + url, true);
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState == 4) {
+                    if(xhr.status == 200) {
+                        html = document.createElement('div');
+                        html.innerHTML = xhr.responseText;
+                        for(var i = 0; i < 5; i++){
+                            yatr.translate($(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i].text);
+                        }
+                    }
                 }
             }
         }
     }
-}
 
-getElement("https://www.instagram.com/");
+        // setTimeout(function () {
+        //     getElement("https://www.theverge.com/tech");
+        // }, 500);
 
-$(document).ready(function() {
-
-    /*----------  open\close sidebar  ----------*/
-    
     	$("#side_nav #butt").click(function(e) {
     		if($("#side_nav").css('left') == "-243px"){
     			$("#side_nav").css('left', '0');
@@ -71,8 +83,20 @@ $(document).ready(function() {
                 this.title = title;
                 this.url = url;
                 this.imageUrl = imageUrl;
-                $("#side_nav").append('<a href="'+ this.url +'" style="background-image: url('+ this.imageUrl +')" class="icon hvr-bounce-in"></a>');
-                Icon.icons.push(this);
+                $("#side_nav").append('<a href="'+ this.url +'" title="'+ this.title +'" style="background-image: url('+ this.imageUrl +')" class="icon hvr-bounce-in"></a>');
+                $("#side_nav .icon").hover(function() {
+                    $("#side_nav .icon i").remove();
+                    $(this).prepend('<i class="fa fa-trash-o" aria-hidden="true"></i><i class="fa fa-pencil" aria-hidden="true"></i>');
+                    $("#side_nav .icon i").click(function(e) {
+                        localStorage.removeItem(this.parentElement.getAttribute('title'));
+                        this.parentElement.remove();
+                    });
+                }, function() {
+                    $("#side_nav .icon i").remove();
+                });
+                Icon.icons[this.title] = this;
+                // Icon.icons.push(this);
+                console.log(Icon.icons);
                 Icon.counter++;
                 localStorage.setItem("icons", JSON.stringify(Icon.icons));
             }
@@ -83,11 +107,11 @@ $(document).ready(function() {
         }
         else {
             Icon.counter = 0;
-            Icon.icons = [];
+            Icon.icons = {};
         }
 
         for (variable of Icon.icons) {
-            $("#side_nav").append('<a href="'+ variable.url +'" id="inst" style="background-image: url('+ variable.imageUrl +')" class="icon hvr-bounce-in"></a>');
+            $("#side_nav").append('<a href="'+ variable.url +'" title="'+ variable.title +'" style="background-image: url('+ variable.imageUrl +')" class="icon hvr-bounce-in"></a>');
         }
 
     /*----------  add new link block  ----------*/
@@ -127,4 +151,65 @@ $(document).ready(function() {
                 blockAddNewNaviconVisible = false;
             }
         });
+
+    /*----------  sidebar link hover (edit/delete)  ----------*/
+
+        $("#side_nav .icon").hover(function() {
+            $("#side_nav .icon i").remove();
+            $(this).prepend('<i class="fa fa-trash-o" aria-hidden="true"></i><i class="fa fa-pencil" aria-hidden="true"></i>');
+            $("#side_nav .icon i").click(function(e) {
+                $(this).parent().click(function(){
+                    return false;
+                });
+                if(this.className === "fa fa-trash-o"){
+                    console.log(this.parentElement.getAttribute('title'));
+                    localStorage.removeItem("aaaa");
+                    this.parentElement.remove();
+                    console.log(1);
+                }
+                else if(this.className === "fa fa-pencil"){
+                    // нажимання на кнопу "редагувати" (олівець)
+                    console.log(2);
+                }
+            });
+        }, function() {
+            $("#side_nav .icon i").remove();
+        });
+
+    /*----------  Translator  ----------*/
+        
+        var yatr = {
+            lines: {},
+
+            key: 'trnsl.1.1.20170704T182449Z.ed19cb41da4e9c4a.13602e8964df3b39bddde7f99cbc170544394f36',
+            api: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+
+            translate: function (text) {
+                var url = this.api+'?';
+                url+= 'key=' + this.key + '&text=' + text + '&lang=en-ru';
+                var ajax = new XMLHttpRequest();
+                ajax.open('GET', url, true);
+                ajax.onreadystatechange = function () {
+                    if(ajax.readyState == 4){
+                        if(ajax.status == 200){
+                            text = ajax.responseText;
+                            text = JSON.parse(text);
+                            text = text.text[0];
+                            console.log(text);
+                        }
+                    }
+                }
+                ajax.send();
+            },
+
+            revert: function () {
+                
+            }
+        };
+
+        var log = function (text) {
+            console.log(text);
+        }
+    
+     getElement("https://www.theverge.com/tech");
 });
