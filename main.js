@@ -21,9 +21,9 @@ $(document).ready(function() {
                     if(xhr.status == 200) {
                         html = document.createElement('div');
                         html.innerHTML = xhr.responseText;
-                        for(var i = 0; i < 5; i++){
+                        for(var i = 0; i < 10; i++){
                             var elem = $(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i];
-                            yatr.translate(elem.text, elem.href);
+                            yatr.translate(elem.text, show, elem.href);
                         }
                     }
                 }
@@ -185,8 +185,7 @@ $(document).ready(function() {
             key: 'trnsl.1.1.20170704T182449Z.ed19cb41da4e9c4a.13602e8964df3b39bddde7f99cbc170544394f36',
             api: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
 
-            translate: function (text, textHref) {
-                var textHref = textHref;
+            translate: function (text, callback, textHref) {
                 var url = this.api+'?';
                 url+= 'key=' + this.key + '&text=' + text + '&lang=en-ru';
                 var ajax = new XMLHttpRequest();
@@ -197,7 +196,12 @@ $(document).ready(function() {
                             text = ajax.responseText;
                             text = JSON.parse(text);
                             text = text.text[0];
-                            show(text, textHref);
+                            if (callback) {
+                                callback(text, textHref);
+                            }
+                            else {
+                                return text;
+                            }
                         }
                     }
                 }
@@ -209,27 +213,78 @@ $(document).ready(function() {
             }
         };
 
+        function getFullNews(url) {
+            request(new XMLHttpRequest());
+
+            function request(xhr) {
+                xhr.open('GET', 'https://crossorigin.me/' + url, true);
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4) {
+                        if(xhr.status == 200) {
+                            html = document.createElement('div');
+                            html.innerHTML = xhr.responseText;
+                            var elem = $(html).find('.l-wrapper .l-segment .c-entry-content p');
+                            for (let el of elem) {
+                                yatr.translate(el.innerText, function (text) {
+                                    $("#new_text_block").append('<p>'+ text +'</p>');
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         var show = function (text, textHref) {
             $("#news_from_other_site #news_mini_titles").append('<div class="mini_title" textHref="'+ textHref +'">'+ text +'</div>');
-            $("#news_from_other_site #news_mini_titles .mini_title").click(function(e) {
+            // console.log($("#news_from_other_site #news_mini_titles[textHref='" + textHref + "']"));
+            $("#news_from_other_site #news_mini_titles .mini_title[textHref='" + textHref + "']").click(function(e) {
                 // console.log(e.target.getAttribute("texthref"));
                 $("#news_from_other_site").css({
                    left: '30%',
                    opacity: '0'
                 });
                 setTimeout(function () {
-                    $("#news_from_other_site").remove();
-                    $("body").append('<div id="new_text_block"></div>');
+                    $("#news_from_other_site").css('display', 'none');
+                }, 100);
+                getFullNews(textHref);
+                setTimeout(function () {
+                    // $("#news_from_other_site").remove();
+                    $("body").append('<a class="fa fa-angle-left" aria-hidden="true"></a><div id="new_text_block"></div>');
+                    $(".fa-angle-left").click(function(e) {
+                        setTimeout(function () {
+                            $("#new_text_block").css({
+                                left: '70%',
+                                opacity: '0'
+                            });
+                        }, 1);
+                        $("#new_text_block").remove();
+                        $(".fa-angle-left").remove();
+                        // getElement("https://www.theverge.com/tech");
+                        // $("body").append('<div id="news_from_other_site"><a href="#" id="site_tab"><div id="site_logo"></div><div id="site_name">The Verge</div></a><div class="clean"></div><div id="news_mini_titles"></div></div>');
+                        $("#news_from_other_site").css({
+                            left: '30%',
+                            opacity: '0',
+                            display: 'block'
+                        });
+                        setTimeout(function () {
+                            $("#news_from_other_site").css({
+                                left: '50%',
+                                opacity: '1'
+                            });
+                        }, 1);
+                    });
                     $("#new_text_block").css({
                        left: '70%',
                        opacity: '0'
                     });
                     setTimeout(function () {
                        $("#new_text_block").css({
-                       left: '50%',
-                       opacity: '1'
-                    });
-                    }, 1);
+                           left: '50%',
+                           opacity: '1'
+                       });
+                    }, 10);
                 }, 200);
             });
         }
