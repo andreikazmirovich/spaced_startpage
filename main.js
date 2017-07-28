@@ -22,7 +22,8 @@ $(document).ready(function() {
                         html = document.createElement('div');
                         html.innerHTML = xhr.responseText;
                         for(var i = 0; i < 5; i++){
-                            yatr.translate($(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i].text);
+                            var elem = $(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i];
+                            yatr.translate(elem.text, elem.href);
                         }
                     }
                 }
@@ -110,9 +111,9 @@ $(document).ready(function() {
             Icon.icons = {};
         }
 
-        for (variable of Icon.icons) {
+        /*for (variable of Icon.icons) {
             $("#side_nav").append('<a href="'+ variable.url +'" title="'+ variable.title +'" style="background-image: url('+ variable.imageUrl +')" class="icon hvr-bounce-in"></a>');
-        }
+        }*/
 
     /*----------  add new link block  ----------*/
 
@@ -184,7 +185,8 @@ $(document).ready(function() {
             key: 'trnsl.1.1.20170704T182449Z.ed19cb41da4e9c4a.13602e8964df3b39bddde7f99cbc170544394f36',
             api: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
 
-            translate: function (text) {
+            translate: function (text, textHref) {
+                var textHref = textHref;
                 var url = this.api+'?';
                 url+= 'key=' + this.key + '&text=' + text + '&lang=en-ru';
                 var ajax = new XMLHttpRequest();
@@ -195,7 +197,7 @@ $(document).ready(function() {
                             text = ajax.responseText;
                             text = JSON.parse(text);
                             text = text.text[0];
-                            console.log(text);
+                            show(text, textHref);
                         }
                     }
                 }
@@ -207,8 +209,29 @@ $(document).ready(function() {
             }
         };
 
-        var log = function (text) {
-            console.log(text);
+        var show = function (text, textHref) {
+            $("#news_from_other_site #news_mini_titles").append('<div class="mini_title" textHref="'+ textHref +'">'+ text +'</div>');
+            $("#news_from_other_site #news_mini_titles .mini_title").click(function(e) {
+                // console.log(e.target.getAttribute("texthref"));
+                $("#news_from_other_site").css({
+                   left: '30%',
+                   opacity: '0'
+                });
+                setTimeout(function () {
+                    $("#news_from_other_site").remove();
+                    $("body").append('<div id="new_text_block"></div>');
+                    $("#new_text_block").css({
+                       left: '70%',
+                       opacity: '0'
+                    });
+                    setTimeout(function () {
+                       $("#new_text_block").css({
+                       left: '50%',
+                       opacity: '1'
+                    });
+                    }, 1);
+                }, 200);
+            });
         }
     
      getElement("https://www.theverge.com/tech");

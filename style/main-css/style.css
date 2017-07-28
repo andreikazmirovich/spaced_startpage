@@ -86,6 +86,9 @@ body {
 }
 #block_bg_images {
   position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 100%;
   height: 100%;
   transition: transform 20s linear, opacity 3s linear;
@@ -135,7 +138,7 @@ body {
   -moz-box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
-#news_from_other_side {
+#news_from_other_site {
   position: absolute;
   width: 600px;
   height: 400px;
@@ -144,15 +147,17 @@ body {
   border-bottom: 3px solid #575b7c;
   left: 50%;
   margin-left: -300px;
+  padding-bottom: 10px;
+  transition: all .2s linear;
 }
-#news_from_other_side #site_tab {
+#news_from_other_site #site_tab {
   text-decoration: none;
   margin-top: -10px;
   margin-left: 10px;
   display: block;
   width: auto;
 }
-#news_from_other_side #site_tab #site_logo {
+#news_from_other_site #site_tab #site_logo {
   background-size: cover;
   background-position: center;
   width: 20px;
@@ -160,9 +165,39 @@ body {
   background-image: url('https://cdn0.vox-cdn.com/uploads/chorus_asset/file/7395361/favicon-64x64.0.ico');
   float: left;
 }
-#news_from_other_side #site_tab #site_name {
+#news_from_other_site #site_tab #site_name {
   color: white;
   line-height: 20px;
   margin-left: 10px;
   float: left;
+}
+#news_from_other_site #news_mini_titles {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  clear: both;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#news_from_other_site #news_mini_titles .mini_title {
+  background-color: rgba(44, 48, 80, 0.7);
+  border-bottom: 3px solid #575b7c;
+  color: white;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+#new_text_block {
+  position: absolute;
+  width: 700px;
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: rgba(44, 48, 80, 0.7);
+  border-bottom: 3px solid #575b7c;
+  left: 50%;
+  top: 200px;
+  margin-left: -350px;
 }
