@@ -10,41 +10,41 @@ $(document).ready(function() {
         //     }
         // });
 
-    function getElement(url) {
-        request(new XMLHttpRequest());
+    /*----------  get all last news  ----------*/
+    
+        function getElement(url) {
+            request(new XMLHttpRequest());
 
-        function request(xhr) {
-            xhr.open('GET', 'https://crossorigin.me/' + url, true);
-            xhr.send();
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4) {
-                    if(xhr.status == 200) {
-                        html = document.createElement('div');
-                        html.innerHTML = xhr.responseText;
-                        for(var i = 0; i < 10; i++){
-                            var elem = $(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i];
-                            yatr.translate(elem.text, show, elem.href);
+            function request(xhr) {
+                xhr.open('GET', 'https://cors-anywhere.herokuapp.com/' + url, true);
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4) {
+                        if(xhr.status == 200) {
+                            html = document.createElement('div');
+                            html.innerHTML = xhr.responseText;
+                            for(var i = 0; i < 10; i++){
+                                var elem = $(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i];
+                                yatr.translate(elem.text, show, elem.href);
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
-        // setTimeout(function () {
-        //     getElement("https://www.theverge.com/tech");
-        // }, 500);
-
-    	$("#side_nav #butt").click(function(e) {
-    		if($("#side_nav").css('left') == "-243px"){
-    			$("#side_nav").css('left', '0');
-    			$(this).html('<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>');
-    		}
-    		else{
-    			$("#side_nav").css('left', '-243px');
-    			$(this).html('<i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>');
-    		}
-    	});
+    /*----------  show/hide side_nav  ----------*/
+    
+        $("#side_nav #butt").click(function(e) {
+        	if($("#side_nav").css('left') == "-243px"){
+        		$("#side_nav").css('left', '0');
+        		$(this).html('<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>');
+        	}
+        	else{
+        		$("#side_nav").css('left', '-243px');
+        		$(this).html('<i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>');
+        	}
+        });
 
     /*----------  search in google  ----------*/
     
@@ -213,11 +213,13 @@ $(document).ready(function() {
             }
         };
 
+    /*----------  getFullNews function  ----------*/
+    
         function getFullNews(url) {
             request(new XMLHttpRequest());
 
             function request(xhr) {
-                xhr.open('GET', 'https://crossorigin.me/' + url, true);
+                xhr.open('GET', 'https://cors-anywhere.herokuapp.com/' + url, true);
                 xhr.send();
                 xhr.onreadystatechange = function() {
                     if(xhr.readyState == 4) {
@@ -251,7 +253,7 @@ $(document).ready(function() {
                 getFullNews(textHref);
                 setTimeout(function () {
                     // $("#news_from_other_site").remove();
-                    $("body").append('<a class="fa fa-angle-left" aria-hidden="true"></a><div id="new_text_block"></div>');
+                    $("body").append('<a class="fa fa-angle-left" aria-hidden="true"></a><div id="new_text_block"><div id="tools_block"><i class="fa fa-file" aria-hidden="true"></i></div></div>');
                     $(".fa-angle-left").click(function(e) {
                         setTimeout(function () {
                             $("#new_text_block").css({
@@ -263,6 +265,7 @@ $(document).ready(function() {
                         $(".fa-angle-left").remove();
                         // getElement("https://www.theverge.com/tech");
                         // $("body").append('<div id="news_from_other_site"><a href="#" id="site_tab"><div id="site_logo"></div><div id="site_name">The Verge</div></a><div class="clean"></div><div id="news_mini_titles"></div></div>');
+                        $("#created_new_text").remove();
                         $("#news_from_other_site").css({
                             left: '30%',
                             opacity: '0',
@@ -274,6 +277,54 @@ $(document).ready(function() {
                                 opacity: '1'
                             });
                         }, 1);
+                    });
+                    var createdNewTextIsOpen = false;
+                    $("#new_text_block #tools_block .fa-file").click(function(e) {
+                        if(!createdNewTextIsOpen){
+                            $("body").append('<div id="created_new_text"></div>');
+                            createdNewTextIsOpen = true;
+                        }
+                        $(".fa-angle-left").css('left', '32%');
+                        $("#new_text_block").css({
+                            left: '8%',
+                            width: '40%',
+                            marginLeft: '0' 
+                        });
+                        $("#new_text_block p").click(function(e) {
+                            var p = e.target;
+                            $(p).unbind('click');
+                            $("#created_new_text").append(p);
+                            var forNewPFunc = function () {
+                                $("#created_new_text p").unbind('mouseenter mouseleave');
+                                $("#created_new_text p").hover(function() {
+                                    $(this).append('<i class="fa fa-pencil" aria-hidden="true"></i>');
+                                    $("#created_new_text p .fa-pencil").click(function(e) {
+                                        var text = e.target.parentNode.innerText;
+                                        $(e.target.parentNode).replaceWith('<textarea>'+ text +'</textarea>');
+                                        $("#created_new_text textarea").keydown(function(e) {
+                                            if(e.keyCode === 17){
+                                                $(this).keyup(function(e) {
+                                                    if (e.keyCode === 13) {
+                                                        var newText = this.value;
+                                                        $(this).replaceWith('<p>'+ newText +'</p>');
+                                                        $("#created_new_text p").unbind('mouseenter mouseleave');
+                                                        forNewPFunc();
+                                                    } 
+                                                });
+                                            }
+                                            else if(e.keyCode === 27){
+                                                $(this).replaceWith('<p>'+ text +'</p>');
+                                                $("#created_new_text p").unbind('mouseenter mouseleave');
+                                                forNewPFunc();
+                                            }
+                                        });
+                                    });
+                                }, function() {
+                                    $("#created_new_text p .fa-pencil").remove();
+                                });
+                            };
+                            forNewPFunc();
+                        });
                     });
                     $("#new_text_block").css({
                        left: '70%',
@@ -290,4 +341,5 @@ $(document).ready(function() {
         }
     
      getElement("https://www.theverge.com/tech");
+
 });
