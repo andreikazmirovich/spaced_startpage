@@ -14,6 +14,7 @@ body {
   transition: all .2s ease;
   padding: 30px 20px;
   box-sizing: border-box;
+  z-index: 100;
 }
 #side_nav .icon {
   width: 70px;
@@ -211,6 +212,19 @@ body {
   font-size: 20px;
   line-height: 30px;
   padding: 0 10px;
+  transition: all .1s linear;
+}
+#new_text_block #tools_block {
+  margin-top: -10px;
+  margin-left: 10px;
+}
+#new_text_block #tools_block i {
+  color: white;
+  opacity: 0.3;
+  cursor: pointer;
+}
+#new_text_block #tools_block i:hover {
+  opacity: 1;
 }
 a.fa-angle-left {
   position: absolute;
@@ -226,4 +240,48 @@ a.fa-angle-left {
 a.fa-angle-left:hover {
   transform: scale(1.2);
   opacity: 1;
+}
+#created_new_text {
+  position: absolute;
+  width: 40%;
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: rgba(44, 48, 80, 0.7);
+  border-bottom: 3px solid #575b7c;
+  padding: 15px;
+  padding-left: 25px;
+  box-sizing: border-box;
+  right: 8%;
+  top: 200px;
+  transition: all .1s linear;
+}
+#created_new_text p {
+  color: white;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 0 10px;
+  transition: all .1s linear;
+  position: relative;
+}
+#created_new_text p .fa-pencil {
+  position: absolute;
+  font-size: 20px;
+  top: 8px;
+  left: -15px;
+  opacity: .3;
+  cursor: pointer;
+}
+#created_new_text p .fa-pencil:hover {
+  opacity: 1;
+}
+#created_new_text textarea {
+  color: white;
+  font-size: 20px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+  background: none;
+  resize: none;
 }
