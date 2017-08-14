@@ -297,7 +297,7 @@ $(document).ready(function() {
                             var forNewPFunc = function () {
                                 $("#created_new_text p").unbind('mouseenter mouseleave');
                                 $("#created_new_text p").hover(function() {
-                                    $(this).append('<i class="fa fa-pencil" aria-hidden="true"></i>');
+                                    $(this).append('<i class="fa fa-pencil" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i><i class="fa fa-sort-desc" aria-hidden="true"></i>');
                                     $("#created_new_text p .fa-pencil").click(function(e) {
                                         var text = e.target.parentNode.innerText;
                                         $(e.target.parentNode).replaceWith('<textarea>'+ text +'</textarea>');
@@ -319,8 +319,18 @@ $(document).ready(function() {
                                             }
                                         });
                                     });
+                                    $("#created_new_text p .fa-sort-asc").click(function(e) {
+                                        $(e.target.parentNode).swap($(e.target.parentNode).prev());
+                                        forNewPFunc();
+                                    });
+                                    $("#created_new_text p .fa-sort-desc").click(function(e) {
+                                        $(e.target.parentNode).swap($(e.target.parentNode).next());
+                                        forNewPFunc();
+                                    });
                                 }, function() {
                                     $("#created_new_text p .fa-pencil").remove();
+                                    $("#created_new_text p .fa-sort-asc").remove();
+                                    $("#created_new_text p .fa-sort-desc").remove();
                                 });
                             };
                             forNewPFunc();
@@ -339,7 +349,22 @@ $(document).ready(function() {
                 }, 200);
             });
         }
+    /*----------  Змінити місцями блоки  ----------*/
     
-     getElement("https://www.theverge.com/tech");
+        jQuery.fn.swap = function(b) {
+            b = jQuery(b)[0];
+            var a = this[0],
+                a2 = a.cloneNode(true),
+                b2 = b.cloneNode(true),
+                stack = this;
+
+            a.parentNode.replaceChild(b2, a);
+            b.parentNode.replaceChild(a2, b);
+
+            stack[0] = a2;
+            return this.pushStack( stack );
+        };
+    
+    getElement("https://www.theverge.com/tech");
 
 });
