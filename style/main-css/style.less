@@ -270,16 +270,34 @@ a.fa-angle-left{
 		padding: 0 10px;
 		transition: all .1s linear;
 		position: relative;
-		.fa-pencil{
+		.side-butt(){
 			position: absolute;
-			font-size: 20px;
-			top: 8px;
-			left: -15px;
 			opacity: .3;
 			cursor: pointer;
+			left: -15px;
 			&:hover{
 				opacity: 1;
 			}
+		}
+		.fa-pencil{
+			.side-butt();
+			top: 8px;
+			font-size: 20px;
+		}
+		.fa-sort-asc{
+			.side-butt();
+			top: 43px;
+			font-size: 25px;
+		}
+		.fa-sort-desc{
+			.side-butt();
+			top: 55px;
+			font-size: 25px;
+		}
+		.fa-trash{
+			.side-butt();
+			top: 90px;
+			font-size: 20px;
 		}
 	}
 	textarea{

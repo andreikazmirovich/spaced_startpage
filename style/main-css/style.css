@@ -266,13 +266,46 @@ a.fa-angle-left:hover {
 }
 #created_new_text p .fa-pencil {
   position: absolute;
-  font-size: 20px;
-  top: 8px;
-  left: -15px;
   opacity: .3;
   cursor: pointer;
+  left: -15px;
+  top: 8px;
+  font-size: 20px;
 }
 #created_new_text p .fa-pencil:hover {
+  opacity: 1;
+}
+#created_new_text p .fa-sort-asc {
+  position: absolute;
+  opacity: .3;
+  cursor: pointer;
+  left: -15px;
+  top: 43px;
+  font-size: 25px;
+}
+#created_new_text p .fa-sort-asc:hover {
+  opacity: 1;
+}
+#created_new_text p .fa-sort-desc {
+  position: absolute;
+  opacity: .3;
+  cursor: pointer;
+  left: -15px;
+  top: 55px;
+  font-size: 25px;
+}
+#created_new_text p .fa-sort-desc:hover {
+  opacity: 1;
+}
+#created_new_text p .fa-trash {
+  position: absolute;
+  opacity: .3;
+  cursor: pointer;
+  left: -15px;
+  top: 90px;
+  font-size: 20px;
+}
+#created_new_text p .fa-trash:hover {
   opacity: 1;
 }
 #created_new_text textarea {

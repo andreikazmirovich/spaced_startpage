@@ -297,7 +297,7 @@ $(document).ready(function() {
                             var forNewPFunc = function () {
                                 $("#created_new_text p").unbind('mouseenter mouseleave');
                                 $("#created_new_text p").hover(function() {
-                                    $(this).append('<i class="fa fa-pencil" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i><i class="fa fa-sort-desc" aria-hidden="true"></i>');
+                                    $(this).append('<i class="fa fa-pencil" aria-hidden="true"></i><i class="fa fa-sort-asc" aria-hidden="true"></i><i class="fa fa-sort-desc" aria-hidden="true"></i><i class="fa fa-trash" aria-hidden="true"></i>');
                                     $("#created_new_text p .fa-pencil").click(function(e) {
                                         var text = e.target.parentNode.innerText;
                                         $(e.target.parentNode).replaceWith('<textarea>'+ text +'</textarea>');
@@ -327,10 +327,15 @@ $(document).ready(function() {
                                         $(e.target.parentNode).swap($(e.target.parentNode).next());
                                         forNewPFunc();
                                     });
+                                    $("#created_new_text p .fa-trash").click(function(e) {
+                                        var elem = e.target.parentNode;
+                                        $(elem).remove();
+                                    });
                                 }, function() {
                                     $("#created_new_text p .fa-pencil").remove();
                                     $("#created_new_text p .fa-sort-asc").remove();
                                     $("#created_new_text p .fa-sort-desc").remove();
+                                    $("#created_new_text p .fa-trash").remove();
                                 });
                             };
                             forNewPFunc();
@@ -349,7 +354,8 @@ $(document).ready(function() {
                 }, 200);
             });
         }
-    /*----------  Змінити місцями блоки  ----------*/
+
+    /*----------  Change blocks places func  ----------*/
     
         jQuery.fn.swap = function(b) {
             b = jQuery(b)[0];
