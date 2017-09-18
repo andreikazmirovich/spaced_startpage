@@ -17,12 +17,14 @@ $(document).ready(function() {
 
             function request(xhr) {
                 xhr.open('GET', 'https://cors-anywhere.herokuapp.com/' + url, true);
+                // xhr.open('GET', 'http://cors-proxy.htmldriven.com/?url=' + url, true);
                 xhr.send();
                 xhr.onreadystatechange = function() {
                     if(xhr.readyState == 4) {
                         if(xhr.status == 200) {
                             html = document.createElement('div');
                             html.innerHTML = xhr.responseText;
+                            console.log(html);
                             for(var i = 0; i < 10; i++){
                                 var elem = $(html).find('.c-compact-river__entry .c-entry-box--compact__title a')[i];
                                 yatr.translate(elem.text, show, elem.href);
